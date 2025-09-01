@@ -21,7 +21,7 @@
     input[type="file"] {
       margin-bottom: 20px;
     }
-    #output {
+    .output-box {
       background: #222;
       padding: 15px;
       border-radius: 8px;
@@ -29,6 +29,7 @@
       max-width: 800px;
       word-wrap: break-word;
       white-space: pre-wrap;
+      margin-top: 10px;
     }
     button {
       margin-top: 10px;
@@ -47,12 +48,18 @@
 <body>
   <h1>Arma 3 Modpack SteamID Extractor</h1>
   <input type="file" id="fileInput" accept=".html">
-  <div id="output">Upload a modpack file to extract IDs...</div>
+
+  <!-- Semicolon separated output -->
+  <div id="output" class="output-box">Upload a modpack file to extract IDs...</div>
   <button id="copyBtn" style="display:none;">Copy to Clipboard</button>
+
+  <!-- Line-by-line output -->
+  <div id="listOutput" class="output-box" style="display:none;"></div>
 
   <script>
     const fileInput = document.getElementById("fileInput");
     const outputDiv = document.getElementById("output");
+    const listOutputDiv = document.getElementById("listOutput");
     const copyBtn = document.getElementById("copyBtn");
 
     fileInput.addEventListener("change", () => {
@@ -75,9 +82,16 @@
           })
           .filter(id => id);
 
-        const output = ids.join(";");
-        outputDiv.textContent = output || "No Steam IDs found.";
-        copyBtn.style.display = ids.length > 0 ? "inline-block" : "none";
+        if (ids.length > 0) {
+          outputDiv.textContent = ids.join(";");
+          listOutputDiv.textContent = ids.join("\n");
+          listOutputDiv.style.display = "block";
+          copyBtn.style.display = "inline-block";
+        } else {
+          outputDiv.textContent = "No Steam IDs found.";
+          listOutputDiv.style.display = "none";
+          copyBtn.style.display = "none";
+        }
       };
       reader.readAsText(file);
     });
