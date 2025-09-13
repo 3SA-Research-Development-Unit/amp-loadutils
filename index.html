@@ -49,12 +49,15 @@
   <h1>Arma 3 Modpack SteamID Extractor</h1>
   <input type="file" id="fileInput" accept=".html">
 
-  <!-- Semicolon separated output -->
-  <div id="output" class="output-box">Upload a modpack file to extract IDs...</div>
-  <button id="copyBtn" style="display:none;">Copy to Clipboard</button>
 
   <!-- Line-by-line output -->
-  <div id="listOutput" class="output-box" style="display:none;"></div>
+  <h2>Workshop Downloader List</h2>
+  <div id="listOutput" class="output-box" style="display:none;">Upload a modpack file to extract IDs...</div>
+
+  <!-- Semicolon separated output -->
+  <h2>Arma 3 Load Order</h2>
+  <div id="output" class="output-box">Upload a modpack file to extract IDs...</div>
+
 
   <script>
     const fileInput = document.getElementById("fileInput");
@@ -94,14 +97,6 @@
         }
       };
       reader.readAsText(file);
-    });
-
-    copyBtn.addEventListener("click", () => {
-      const text = outputDiv.textContent;
-      navigator.clipboard.writeText(text).then(() => {
-        copyBtn.textContent = "Copied!";
-        setTimeout(() => copyBtn.textContent = "Copy to Clipboard", 2000);
-      });
     });
   </script>
 </body>
